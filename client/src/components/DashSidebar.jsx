@@ -1,14 +1,21 @@
-import { Sidebar } from 'flowbite-react'
+/* eslint-disable react/no-unescaped-entities */
+import { Button, Sidebar } from 'flowbite-react'
 import { useEffect, useState } from 'react'
-import { HiArrowSmRight, HiUser } from 'react-icons/hi'
+import {
+  HiArrowSmRight,
+  HiOutlineExclamationCircle,
+  HiUser,
+} from 'react-icons/hi'
 import { Link, useLocation } from 'react-router-dom'
 import { signoutSuccess } from '../redux/user/userSlice'
 import { useDispatch } from 'react-redux'
+import { Modal } from 'flowbite-react'
 
 export default function DashSidebar() {
   const location = useLocation()
   const dispatch = useDispatch()
   // eslint-disable-next-line no-unused-vars
+  const [showSignoutModal, setShowSignoutModal] = useState(false)
   const [tab, setTab] = useState('')
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search)
@@ -51,12 +58,36 @@ export default function DashSidebar() {
           <Sidebar.Item
             icon={HiArrowSmRight}
             className="cursor-pointer"
-            onClick={handleSignout}
+            onClick={() => setShowSignoutModal(true)}
           >
             Sign out
           </Sidebar.Item>
         </Sidebar.ItemGroup>
       </Sidebar.Items>
+      <Modal
+        show={showSignoutModal}
+        onClose={() => setShowSignoutModal(false)}
+        popup
+        size="md"
+      >
+        <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <HiOutlineExclamationCircle className="h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto" />
+            <h3 className="mb-4 text-lg text-gray-500 dark:text-gray-400">
+              Are you sure you want to sign out?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={handleSignout}>
+                Yes, I'm sure!
+              </Button>
+              <Button color="gray" onClick={() => setShowSignoutModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </Sidebar>
   )
 }
