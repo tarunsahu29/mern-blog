@@ -48,13 +48,13 @@ export const getposts = async (req, res, next) => {
       .limit(limit)
     const totalPosts = await Post.countDocuments()
 
-    const now = new Date();
+    const now = new Date()
 
     const oneMonthAgo = new Date(
       now.getFullYear(),
       now.getMonth() - 1,
       now.getDate(),
-    );
+    )
 
     const lastMonthPosts = await Post.countDocuments({
       createdAt: { $gte: oneMonthAgo },
@@ -72,11 +72,40 @@ export const getposts = async (req, res, next) => {
 
 export const deletepost = async (req, res, next) => {
   if (!req.user.isAdmin || req.user.id !== req.params.userId) {
-    return next(errorHandler(403, 'You do not have permission to delete this post!'));
+    return next(
+      errorHandler(403, 'You do not have permission to delete this post!'),
+    )
   }
   try {
-    await Post.findByIdAndDelete(req.params.postId);
-    res.status(200).json('The post has been deleted');
+    await Post.findByIdAndDelete(req.params.postId)
+    res.status(200).json('The post has been deleted')
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const updatepost = async (req, res, next) => {
+  if (!req.user.isAdmin || req.user.id !== req.params.userId) {
+    return next(
+      errorHandler(403, 'You do not have permission to update this post!'),
+    )
+  }
+  try {
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.postId,
+      {
+        $set: {
+          title: req.body.title,
+          content: req.body.content,
+          category: req.body.category,
+          image: req.body.image,
+        },
+      },
+      {
+        new: true,
+      },
+    )
+    res.status(200).json(updatedPost);
   } catch (error) {
     next(error);
   }
