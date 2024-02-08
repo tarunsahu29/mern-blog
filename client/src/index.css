@@ -2,10 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+body {
   height: 100vh;
 }
 
-.ql-editor{
+.ql-editor {
   font-size: larger;
+}
+
+.dark .ql-editor.ql-blank:before {
+  color: rgba(255, 255, 255, 0.691);
+}
+
+.dark .ql-snow .ql-stroke {
+  /* for the border of the editor */
+  stroke: currentColor !important;
+}
+
+.dark .ql-snow .ql-fill {
+  /* for the bg color */
+  fill: currentColor !important;
+}
+.dark .ql-toolbar.ql-snow .ql-picker-label {
+  color: rgba(255, 255, 255, 0.691);
+  opacity: 0.76;
+}
+
+.post-content p {
+  margin-bottom: 0.5rem;
+}
+
+.post-content h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: sans-serif;
+  margin: 1.5rem 0;
+}
+
+.post-content h2 {
+  font-size: 1.4rem;
+  font-family: sans-serif;
+  margin: 1.5rem 0;
+}
+
+.post-content a {
+  color: rgb(73, 149, 199);
+  text-decoration: none;
+}
+
+.post-content a:hover {
+  text-decoration: underline;
+}
+
+.dark .post-content a {
+  color: red;
 }

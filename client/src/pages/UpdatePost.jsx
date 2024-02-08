@@ -13,17 +13,18 @@ import { app } from '../firebase'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'
 
 export default function UpdatePost() {
   const [file, setFile] = useState(null)
   const [imageUploadProgress, setImageUploadProgress] = useState(null)
   const [imageUploadError, setImageUploadError] = useState(null)
   const [formData, setFormData] = useState({})
+
   const [publishError, setPublishError] = useState(null)
   const { postId } = useParams()
   const navigate = useNavigate()
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser } = useSelector((state) => state.user)
   // console.log(formData);
   useEffect(() => {
     try {
@@ -84,20 +85,28 @@ export default function UpdatePost() {
     }
   }
   const handleSubmit = async (e) => {
+    console.log(formData)
+    // console.log(postId)
+    // console.log(currentUser._id)
+    // console.log(formData._id)
     e.preventDefault()
     try {
-      const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
+      const res = await fetch(
+        `/api/post/updatepost/${postId}/${currentUser._id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
         },
-        body: JSON.stringify(formData),
-      })
+      )
       const data = await res.json()
       if (!res.ok) {
         setPublishError(data.message)
         return
       }
+
       if (res.ok) {
         setPublishError(null)
         navigate(`/post/${data.slug}`)

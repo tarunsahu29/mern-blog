@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import OAuth from '../components/OAuth'
 
@@ -10,6 +10,7 @@ export default function SignUp() {
   const [formData, setFormData] = useState({})
   const [errorMessage, setErrorMessage] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [successMessage, setSuccessMessage] = useState(null)
   const navigate = useNavigate()
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() })
@@ -34,13 +35,18 @@ export default function SignUp() {
       }
       setLoading(false)
       if (res.ok) {
-        navigate('/sign-in')
+        setSuccessMessage('Signed up successfully')
+        setTimeout(() => {
+          navigate('/sign-in')
+        }, 1000) // Navigate after 1 second
       }
     } catch (error) {
       setErrorMessage(error.message)
       setLoading(false)
     }
   }
+  console.log(successMessage)
+
   return (
     <div className="min-h-screen mt-20">
       <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-10">
@@ -116,6 +122,11 @@ export default function SignUp() {
           {errorMessage && (
             <Alert className="mt-5" color="failure">
               {errorMessage}
+            </Alert>
+          )}
+          {successMessage && (
+            <Alert className="mt-5" color="success">
+              {successMessage}
             </Alert>
           )}
         </div>
