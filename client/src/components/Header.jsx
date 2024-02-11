@@ -1,5 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
-import { Avatar, Button, Dropdown, Modal, Navbar, TextInput } from 'flowbite-react'
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Modal,
+  Navbar,
+  TextInput,
+} from 'flowbite-react'
 import { Link, useLocation } from 'react-router-dom'
 import { AiOutlineSearch } from 'react-icons/ai'
 import { FaMoon, FaSun } from 'react-icons/fa'
@@ -14,22 +21,22 @@ export default function Header() {
   const dispatch = useDispatch()
   const { currentUser } = useSelector((state) => state.user)
   const { theme } = useSelector((state) => state.theme)
-  const [showSignoutModal, setShowSignoutModal] = useState(false);
+  const [showSignoutModal, setShowSignoutModal] = useState(false)
 
-   const handleSignout = async () => {
+  const handleSignout = async () => {
     try {
       const res = await fetch(`/api/user/signout`, {
         method: 'POST',
       })
-      const data = await res.json();
+      const data = await res.json()
       if (!res.ok) {
-        console.log(data.message);
+        console.log(data.message)
       } else {
-        dispatch(signoutSuccess());
-        setShowSignoutModal(false); 
+        dispatch(signoutSuccess())
+        setShowSignoutModal(false)
       }
     } catch (error) {
-      console.log(error.message);
+      console.log(error.message)
     }
   }
   return (
@@ -81,7 +88,9 @@ export default function Header() {
               <Dropdown.Item>Profile</Dropdown.Item>
             </Link>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={()=>setShowSignoutModal(true)}>Sign out</Dropdown.Item>
+            <Dropdown.Item onClick={() => setShowSignoutModal(true)}>
+              Sign out
+            </Dropdown.Item>
           </Dropdown>
         ) : (
           <Link to="/sign-in">
@@ -91,7 +100,8 @@ export default function Header() {
           </Link>
         )}
         <Navbar.Toggle />
-      </div><Modal
+      </div>
+      <Modal
         show={showSignoutModal}
         onClose={() => setShowSignoutModal(false)}
         popup
