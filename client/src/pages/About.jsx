@@ -2,8 +2,8 @@
 
 export default function About() {
   return (
-    <div className="min-h-screen flex justify-center bg-gray-100 p-8 dark:bg-slate-700">
-      <div className="max-w-2xl mx-auto p-8 text-center bg-white rounded-lg shadow-lg dark:bg-slate-50">
+    <div className="min-h-screen flex justify-center bg-gray-200 p-8 dark:bg-slate-900">
+      <div className="max-w-2xl mx-auto p-8 text-center bg-white rounded-lg shadow-lg dark:bg-slate-100">
         <div>
           <h1 className="text-3xl font-semibold text-center my-7 text-slate-700">
             About Alexa's Blog
